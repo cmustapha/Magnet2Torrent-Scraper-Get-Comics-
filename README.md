@@ -16,7 +16,7 @@ Ce projet permet de **scraper** des liens **Magnet** depuis [GetComics](https://
 ## 📌 Prérequis
 - Python  
 ```bash
-git clone https://github.com/votre-nom/magnet2torrent-scraper.git
+git clone https://github.com/AdamchDarkness/Magnet2Torrent-Scraper-Get-Comics-.git
 cd magnet2torrent-scraper
 pip install selenium
 ```
