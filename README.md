@@ -14,9 +14,23 @@ Ce projet permet de **scraper** des liens **Magnet** depuis [GetComics](https://
 ---
 
 ## 📌 Prérequis
-- Python  \
+- Python  
 ```bash
 git clone https://github.com/votre-nom/magnet2torrent-scraper.git
 cd magnet2torrent-scraper
 pip install selenium
 ```
+
+## 🚀 Utilisation
+Exécutez le script principal :
+
+```bash
+python main.py
+```
+
+#Le programme va :
+- Scraper les articles de GetComics.
+- Extraire les liens Magnet.
+- Les convertir en .torrent avec aria2c.
+- Stocker les .torrent dans torrents/.
+
