@@ -31,6 +31,7 @@ Exécutez le script principal :
 
 ```bash
 python main.py
+python mainDC.py
 ```
 
 #Le programme va :

@@ -29,14 +29,14 @@ def magnet_to_torrent_aria2(magnet_link):
 for page in range(1, 46):
     url = f"https://getcomics.org/tag/marvel-now/page/{page}/"
     driver.get(url)
-    time.sleep(2)
+    time.sleep(1)
 
     articles = driver.find_elements(By.XPATH, "//*[starts-with(@id, 'post-')]")
 
     for article in articles:
         try:
             article.click()
-            time.sleep(3)
+            time.sleep(1)
 
             try:
                 magnet_link_element = WebDriverWait(driver, 5).until(
@@ -54,7 +54,7 @@ for page in range(1, 46):
                 print("⚠ Aucun lien Magnet trouvé.")
 
             driver.back()
-            time.sleep(2)
+            time.sleep(1)
 
         except Exception as e:
             print(f"❌ Erreur avec l'article : {e}")
