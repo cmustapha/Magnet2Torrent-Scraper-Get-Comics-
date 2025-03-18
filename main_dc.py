@@ -15,7 +15,7 @@ os.makedirs(SAVE_PATH, exist_ok=True)
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
-for page in range(1, 46):
+for page in range(1, 1212):
     url = f"https://getcomics.org/cat/dc/page/{page}/"
     driver.get(url)
     time.sleep(1)
