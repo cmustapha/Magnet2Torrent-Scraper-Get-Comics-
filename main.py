@@ -2,6 +2,7 @@ import os
 import time
 import subprocess
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,8 +11,8 @@ ARIA2C_PATH = r"aria2-1.37.0-win-64bit-build1\aria2c.exe"
 
 SAVE_PATH = "torrents"
 os.makedirs(SAVE_PATH, exist_ok=True)
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
-driver = webdriver.Chrome()
 
 def magnet_to_torrent_aria2(magnet_link):
     print(f"🔄 Conversion du Magnet en .torrent : {magnet_link}")
@@ -28,14 +29,14 @@ def magnet_to_torrent_aria2(magnet_link):
 for page in range(1, 46):
     url = f"https://getcomics.org/tag/marvel-now/page/{page}/"
     driver.get(url)
-    time.sleep(2)
+    time.sleep(1)
 
     articles = driver.find_elements(By.XPATH, "//*[starts-with(@id, 'post-')]")
 
     for article in articles:
         try:
             article.click()
-            time.sleep(3)
+            time.sleep(1)
 
             try:
                 magnet_link_element = WebDriverWait(driver, 5).until(
@@ -53,7 +54,7 @@ for page in range(1, 46):
                 print("⚠ Aucun lien Magnet trouvé.")
 
             driver.back()
-            time.sleep(2)
+            time.sleep(1)
 
         except Exception as e:
             print(f"❌ Erreur avec l'article : {e}")
