@@ -79,7 +79,7 @@ for page in range(1, 1577):
                 
                
 
-            driver.get(url)
+            driver.back()
             time.sleep(1)
 
         except Exception as e:
