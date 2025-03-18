@@ -2,6 +2,7 @@ import os
 import time
 import subprocess
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,8 +11,8 @@ ARIA2C_PATH = r"aria2-1.37.0-win-64bit-build1\aria2c.exe"
 
 SAVE_PATH = "torrents"
 os.makedirs(SAVE_PATH, exist_ok=True)
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
-driver = webdriver.Chrome()
 
 def magnet_to_torrent_aria2(magnet_link):
     print(f"🔄 Conversion du Magnet en .torrent : {magnet_link}")
