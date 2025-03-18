@@ -26,7 +26,7 @@ def magnet_to_torrent_aria2(magnet_link):
     subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)  
     print(f"✅ Fichier .torrent enregistré dans {SAVE_PATH}")
 
-for page in range(1, 46):
+for page in range(1, 1577):
     url = f"https://getcomics.org/tag/marvel-now/page/{page}/"
     driver.get(url)
     time.sleep(1)
