@@ -7,25 +7,28 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
 
 ARIA2C_PATH = r"aria2-1.37.0-win-64bit-build1\aria2c.exe"
 
 SAVE_PATH = "torrents"
 os.makedirs(SAVE_PATH, exist_ok=True)
-driver = webdriver.Chrome(ChromeDriverManager().install())
+service = Service(ChromeDriverManager().install())
+driver = webdriver.Chrome(service=service)
 
 
 def magnet_to_torrent_aria2(magnet_link):
-    print(f"🔄 Conversion du Magnet en .torrent : {magnet_link}")
-    command = [
-        ARIA2C_PATH,
-        "--bt-metadata-only=true",
-        "--bt-save-metadata=true",
-        f"--dir={SAVE_PATH}",
-        magnet_link
-    ]
-    subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)  
-    print(f"✅ Fichier .torrent enregistré dans {SAVE_PATH}")
+    
+    print(f"🔄 Enregistrement du Magnet URL dans un fichier : {magnet_link}")
+
+    # Définir le chemin du fichier où enregistrer les Magnet URL
+    magnet_file_path = f"{SAVE_PATH}/magnet_links.txt"
+
+    # Écrire le lien Magnet dans le fichier
+    with open(magnet_file_path, "a", encoding="utf-8") as file:
+        file.write(magnet_link + "\n")
+
+    print(f"✅ Magnet URL enregistré dans {magnet_file_path}")
 
 for page in range(1, 1577):
     url = f"https://getcomics.org/tag/marvel-now/page/{page}/"
