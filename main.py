@@ -33,7 +33,7 @@ def magnet_to_torrent_aria2(magnet_link):
 for page in range(1, 1577):
     url = f"https://getcomics.org/tag/marvel-now/page/{page}/"
     driver.get(url)
-    time.sleep(1)
+    time.sleep(5)
 
     articles = driver.find_elements(By.XPATH, "//*[starts-with(@id, 'post-')]")
 
@@ -43,7 +43,7 @@ for page in range(1, 1577):
             page_title = driver.title
             # Nettoyer le titre de la page (enlever les caractères spéciaux pour éviter des problèmes de nom de fichier)
             safe_title = "".join(c if c.isalnum() or c in (' ', '_', '-') else '_' for c in page_title)
-            time.sleep(1)
+            time.sleep(5)
 
             try:
                 magnet_link_element = WebDriverWait(driver, 5).until(
@@ -56,34 +56,15 @@ for page in range(1, 1577):
                     magnet_to_torrent_aria2(magnet_link)
                 else:
                     print("⚠ Aucun lien Magnet trouvé.")
-                    print('recherche CBR')
-                    magnet_link_element =  WebDriverWait(driver, 10).until(
-                             EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'aio-red') and contains(@title, 'DOWNLOAD NOW')]"))
-                        )
-                    cbr_url = magnet_link_element.get_attribute("href")
-                    if cbr_url:
-                        print(f"🔗 Fichier cbr trouvé : {cbr_url}")
-                        response = requests.get(cbr_url, stream=True)
-                        if response.status_code == 200:
-                            timestamp = time.strftime("%Y%m%d-%H%M%S")
-                            filename = os.path.join(SAVE_PATH, f"{safe_title}_{timestamp}.cbr")
-                
-                            with open(filename, "wb") as file:
-                                for chunk in response.iter_content(1024):
-                                    file.write(chunk)
-
-                            print(f"✅ Fichier cbr enregistré dans {SAVE_PATH}")
-                                    
-                    else:
-                            print("⚠ Aucun lien cbr trouvé.")
+                   
 
             except:
                 print("⚠ Aucun lien Magnet trouvé.")
                 
                
-
+            
             driver.back()
-            time.sleep(1)
+            time.sleep(5)
 
         except Exception as e:
             print(f"❌ Erreur avec l'article : {e}")
