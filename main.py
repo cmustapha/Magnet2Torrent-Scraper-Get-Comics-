@@ -43,8 +43,16 @@ def magnet_to_torrent_aria2(magnet_link):
     with open(magnet_file_path, "a", encoding="utf-8") as file:
         file.write(magnet_link + "\n")
 
-    print(f"✅ URL enregistré dans {magnet_file_path}")
+    print(f"✅ URL  magnet enregistré dans {magnet_file_path}")
 
+def save_cbr(magnet_link):
+    print(f"🔄 Enregistrement du Magnet URL : {magnet_link}")
+
+    magnet_file_path = f"{SAVE_PATH}/cbr_links.txt"
+    with open(magnet_file_path, "a", encoding="utf-8") as file:
+        file.write(magnet_link + "\n")
+
+    print(f"✅ URL cbr  enregistré dans {magnet_file_path}")
 # Boucle à travers les pages
 for page in range(start_page, 1577):
     print(f"📄 Traitement de la page {page}")
@@ -84,7 +92,7 @@ for page in range(start_page, 1577):
                             if cbr_url:
 
                                     print(f"🔗 Lien Magnet trouvé : {cbr_url}")
-                                    magnet_to_torrent_aria2(cbr_url)
+                                    save_cbr(cbr_url)
             
                                     print(f"✅ Lien Fichier cbr")
                                 
