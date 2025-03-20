@@ -43,16 +43,20 @@ def magnet_to_torrent_aria2(magnet_link):
     with open(magnet_file_path, "a", encoding="utf-8") as file:
         file.write(magnet_link + "\n")
 
-    print(f"✅ Magnet URL enregistré dans {magnet_file_path}")
+    print(f"✅ URL enregistré dans {magnet_file_path}")
 
 # Boucle à travers les pages
 for page in range(start_page, 1577):
     print(f"📄 Traitement de la page {page}")
-    url = f"https://getcomics.org/tag/marvel-now/page/{page}/"
+    url = f"https://getcomics.org/page/{page}/"
     driver.get(url)
     time.sleep(5)
+    section = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "section.page-contents.post-list.post-list-masonry"))
+        )
 
-    articles = driver.find_elements(By.XPATH, "//*[starts-with(@id, 'post-')]")
+    articles = section.find_elements(By.TAG_NAME, "article")
+    print(f"🔍 {len(articles)} articles trouvés sur cette page.")
 
     for article in articles:
         try:
@@ -70,9 +74,46 @@ for page in range(start_page, 1577):
                     magnet_to_torrent_aria2(magnet_link)
                 else:
                     print("⚠ Aucun lien Magnet trouvé.")
+                    print("⚠ Recherche CBR.")
+                    try:
+                            magnet_link_element =  WebDriverWait(driver, 10).until(
+                                        EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'aio-red') and contains(@title, 'DOWNLOAD NOW')]"))
+                                    )
+                            cbr_url = magnet_link_element.get_attribute("href")
+
+                            if cbr_url:
+
+                                    print(f"🔗 Lien Magnet trouvé : {cbr_url}")
+                                    magnet_to_torrent_aria2(cbr_url)
+            
+                                    print(f"✅ Lien Fichier cbr")
+                                
+                            else:
+                                print("⚠ Aucun lien cbr trouvé.")
+
+                    except:
+                            print("⚠ Aucun lien cbr trouvé.")
             except:
                 print("⚠ Aucun lien Magnet trouvé.")
+                print("⚠ Recherche CBR.")
+                try:
+                            magnet_link_element =  WebDriverWait(driver, 10).until(
+                                        EC.presence_of_element_located((By.XPATH, "//a[contains(@class, 'aio-red') and contains(@title, 'DOWNLOAD NOW')]"))
+                                    )
+                            cbr_url = magnet_link_element.get_attribute("href")
 
+                            if cbr_url:
+
+                                    print(f"🔗 Lien Magnet trouvé : {cbr_url}")
+                                    magnet_to_torrent_aria2(cbr_url)
+            
+                                    print(f"✅ Lien Fichier cbr")
+                                
+                            else:
+                                print("⚠ Aucun lien cbr trouvé.")
+
+                except:
+                            print("⚠ Aucun lien cbr trouvé.")
             driver.back()
             time.sleep(5)
 
